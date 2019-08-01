@@ -15,19 +15,13 @@ const IndexPage = () => {
           fontWeight: 'bold',
         }}
       >
-        Gatsby Ant Design Docs Boilerplate
+        Liftoff React Spring Boot Setup Guide
       </p>
-      <h2>A gatsby starter to create documentation websites</h2>
-      <p>
-        This is a fork of{' '}
-        <a href="https://github.com/cvluca/gatsby-starter-markdown">
-          https://github.com/cvluca/gatsby-starter-markdown
-        </a>
-      </p>
+      <h2>Helps you get up and going with basic app shells</h2>
       <br />
       <Button.Group size="large">
         <Button
-          href="https://github.com/jannikbuschke/gatsby-antd-docs"
+          href="https://github.com/gavinmeier25/liftoff-help"
           target="_blank"
         >
           Github

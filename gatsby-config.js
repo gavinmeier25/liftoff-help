@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Ant-Design Documentation Starter',
+    title: 'Liftoff Guide',
   },
   plugins: [
     `gatsby-plugin-typescript`,
@@ -94,5 +94,5 @@ module.exports = {
     // 'gatsby-plugin-offline',
   ],
   /// this must match the path your webpage is displayed from
-  pathPrefix: '/gatsby-antd-docs',
+  pathPrefix: '/',
 }
