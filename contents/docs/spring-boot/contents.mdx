@@ -1,52 +1,78 @@
 ---
-title: Step 2
+title: The Final Step! 🤪
 root: '/docs'
 parents: ['Spring-Boot']
 ---
 
-<h1 align="center">Contents</h1>
+# Ok
 
-import { Alert } from 'antd'
+Lets create a new controller 
 
-<Alert type="warning" message="Out of date" closeable={true} />
-
-## Source of contents
-
-All contents are stored under `/contents`. To change the root path, modify the following part in `gatsby-config.js`, simply by replace the `path` of it.
-
-```sh
+``` 
+@RestController("/labradoodle")
+public class LabradoodleController
 {
-  resolve: `gatsby-source-filesystem`,
-  options: {
-    name: `contents`,
-    path: `${__dirname}/contents`
-  }
+    private LabradoodleService labradoodleService;
+
+    public LabradoodleController(LabradoodleService labradoodleService)
+    {
+        this.labradoodleService = labradoodleService;
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Labradoodle> getAll()
+    {
+        return labradoodleService.getAll();
+    }
+
+    @PostMapping("/new")
+    @ResponseStatus(HttpStatus.OK)
+    public Labradoodle addNew(Labradoodle labradoodle)
+    {
+        return labradoodleService.addLabradoodle(labradoodle);
+    }
 }
 ```
 
-## Information of the page
+Now we need to do into the src/resources 
 
-We store the information of the page on the top of the markdown files used to generate sidebar, which currently includes the following infomation:
+we can delete the static and template packages they are not needed
 
-- `title`: the title of the page
-- `date`: the date created
-- `root`: root of the pages should show in the sidebar (based on the path under `/contents`)
-- `parents`: parents of the page in the sidebar (the format show be `array`,top-down ordered).
+Lets add the following config
 
-### Example
-
-The current page have the following infomation on the top of the file:
-
-```sh
----
-title: Contents
-root: "/docs"
-parents: ["Guide"]
----
 ```
 
-The path of this file is `/contents/docs/guide/contents.md`. Since the root is `/docs`, all pages under this path will be showing in the sidebar. Some information is not used (i.e. date), so this file don't have it.
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+spring.datasource.url=jdbc:h2:~/liftoff;DB_CLOSE_ON_EXIT=TRUE
+spring.datasource.username=sa
+spring.datasource.password=
 
-## Important to notice!
+spring.datasource.platform=H2
+server.port=8080
 
-The path of the pages will automatically generated based on the root folder. However, Gatsby will also automatically gererate pages under `/src/components/pages`, so you cannot have the markdown file with the same name under the root folder.
+spring.datasource.driverClassName=org.h2.Driver
+```
+
+#OK we are close 
+
+Lets go ahead and try to run this
+
+### should we running
+
+ok lets download postman
+
+https://www.getpostman.com/
+
+## Ok now
+
+lets hit ```http://localhost:8080/labradoodle/new``` 
+
+(change it to raw and the text type to json)
+
+with a post request in postman with the following JSON body
+
+```
+
+

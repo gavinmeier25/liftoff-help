@@ -1,0 +1,252 @@
+---
+title: Lets get it
+root: '/docs'
+parents: ['Spring-Boot']
+---
+
+
+# First ✈️
+
+We need to make a new spring project the easiest way to do this is..... through .....
+
+https://start.spring.io/
+
+lets do a Maven Project this is the format we are going to use
+````
+Java
+
+2.1.6
+
+com.example you can change to edu.launchcode
+
+Artifact -> your app name 
+
+Dependencies 👽 I love these 
+
+Lets grab 
+
+H2 Database
+
+Spring Web Starter
+
+Spring Data JPA
+
+Lombok 
+
+Create the project
+````
+# Next ❗️
+
+Lets go ahead and open the project up in intellij
+
+# Now ⚜️
+
+Lets go ahead and try to run it to make sure everything just checks out ok
+
+Ok that should work 🍻
+
+Now lets go ahead and set up the packages we are going to do to make this happen!
+
+## Packages 📦
+
+Ok go into ```src/main/java/<whatever you named it> ```
+
+at the same level as the main app class is where we want to create these packages for your classes
+
+we need the following 
+````
+model
+
+repository
+
+service
+
+controller
+````
+
+# Now we are getting really close to have this set up 
+
+First lets create a model class Labradoodle
+
+This is represent a table in our H2 database
+
+The ```@Data, @AllArgsConstructor, @NoArgsConstructor``` give us a constructor as well as setters and getters (lombok for the WIN 🙌🏻)
+
+The ```@Table and @Entity``` are needed for JPA 
+
+```
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "labradoodle")
+@Entity
+public class Labradoodle
+{
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "owner")
+    private String owner;
+}
+```
+
+Now lets create the repository needed (its an interface)
+
+This is used to communicate with the database its the main piece of Jpa at work here and as you can see its empty 😱
+
+Check out the docs on this but it has method in the interface its extending so it all works out 
+
+```
+@Repository
+public interface LabradoodleRepository extends JpaRepository<Labradoodle, Long>
+{
+}
+```
+
+Now we need a service to add and get labradoodles
+
+Notice the ```@Service``` and the other annotation 
+
+```
+@Service
+public class LabradoodleService {
+
+    private LabradoodleRepository labradoodleRepository;
+
+
+    public LabradoodleService(LabradoodleRepository labradoodleRepository)
+    {
+        this.labradoodleRepository = labradoodleRepository;
+    }
+
+    public List<Labradoodle> getAll()
+    {
+        return labradoodleRepository.findAll();
+    }
+
+    public Labradoodle addLabradoodle(Labradoodle labradoodle)
+    {
+        return labradoodleRepository.save(labradoodle);
+    }
+}
+```
+
+## Ok the 🍞 and butter 
+
+Lets create our first rest end point 
+
+and then lets create our second 🤪
+
+````
+@RestController
+@RequestMapping("/labradoodle")
+public class LabradoodleController
+{
+    private LabradoodleService labradoodleService;
+
+    public LabradoodleController(LabradoodleService labradoodleService)
+    {
+        this.labradoodleService = labradoodleService;
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Labradoodle> getAll()
+    {
+        return labradoodleService.getAll();
+    }
+
+    @PostMapping("/new")
+    @ResponseStatus(HttpStatus.OK)
+    public Labradoodle addNew(@RequestBody Labradoodle labradoodle)
+    {
+        return labradoodleService.addLabradoodle(labradoodle);
+    }
+}
+````
+
+What are we doing here is saying that we have an endpoint that starts with `/labradoodle` that you can see at the top of the class. 
+
+Then we are setting up a getting mapping for the Labradoodle to get them all
+
+Then we are allowing new labradoodles to be added through the `/labradoodle/new` end point. 
+
+Pretty neat 🤓
+
+Now we need to set up the connections to H2
+
+go to your src/main/resources/application.properties file 
+
+copy and paste this in
+````
+
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+spring.datasource.url=jdbc:h2:~/liftoff-1;DB_CLOSE_ON_EXIT=TRUE
+spring.datasource.username=sa
+spring.datasource.password=
+
+spring.datasource.platform=H2
+server.port=8080
+
+spring.datasource.driverClassName=org.h2.Driver
+````
+
+
+Sweet lets try to run it
+
+You should be able to download postman to test it out
+
+https://www.getpostman.com/downloads/
+
+if you send a post to the following endpoint 
+
+````
+http://localhost:8080/labradoodle/new
+````
+with this as the body (set it to be raw and change it from text to application/json)
+
+this is the format for json
+````
+{
+	"name": "Finn2",
+	"owner": "Gavin222"
+}
+````
+
+Its key value pairs 
+
+````
+{
+    key: value
+}
+````
+
+It needs the `"` to make it proper json
+
+Ok send that you should get back a response with whatever data you sent it if you changed my name for yours etc.
+
+Ok now lets call a get request on 
+
+````
+http://localhost:8080/labradoodle
+````
+
+We should get back our data 
+
+if you got stuck
+
+here is the link to the repo with the code
+
+https://github.com/gavinmeier25/liftoff-java-spring-service
+
+### What now?
+
+Now you should be in a decent enough spot to be able to mess around with these things and have a flow in place that you can build from. If you get errors try to look at the errors stacktrace to see where it first occurs.
+
+## Thanks for reading! 👨🏼‍💻
